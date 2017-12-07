@@ -1,0 +1,76 @@
+* {
+    font-family: Arial, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th, td { 
+    padding: 2px 10px;
+    border:  1px solid #000;
+}
+
+th {
+    background: #eee;
+}
+
+td:first-child {
+    text-align: center;
+}
+
+form {
+    margin-bottom: 10px;
+}
+
+td form, th form {
+    display: inline-block;
+}
+
+.container {
+    width: 1200px;
+    margin:  0 auto;
+} 
+
+.task-done {
+    background: #2ecc71;
+}
+
+.task-progress {
+    background: #f39c12;
+}
+
+.filter {
+    border: none;
+    font-size: 1.3em;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.login {
+    width:  600px;
+    margin: 0 auto;
+    padding: 0 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.login input {
+    margin: 0 auto 10px;
+}
+
+.login input:not([name="action"])
+{
+    display: block;
+}
+
+.login label {
+    display: block;
+}
+
+.error {
+    font-weight: bold;
+    font-size: 0.8em;
+    color:  red;
+}
