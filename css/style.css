@@ -74,3 +74,8 @@ td form, th form {
     font-size: 0.8em;
     color:  red;
 }
+
+header {
+    border-bottom: 1px solid #333;
+    text-align: right;
+}

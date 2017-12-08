@@ -2,7 +2,6 @@
     require_once 'Controller.php';
     require_once 'User.php';
 
-
     session_start();
 
     if ($_POST['login'] ?? '' && $_POST['pass'] ?? '') {
@@ -29,6 +28,7 @@
                 'password' => $pass
             ]);
             if($selectedUser) {
+                $_SESSION['user'] = $_POST['login'];
                 header('Location:manager.php');
             } else {
                 $errorMsg = "Неверный логин или пароль";

@@ -1,5 +1,13 @@
 <?php 
     require_once 'Controller.php';
+
+    session_start();
+    
+    if(!($_SESSION['user'] ?? '')) {
+        http_response_code(403);
+        echo 'Вход только для авторизованных пользователей!';
+        exit;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -12,6 +20,14 @@
 <body>
 
     <div class="container">
+        <header id="header">
+            <div class="container">
+                <p>Пользователь:&nbsp; <?= $_SESSION['user'] ?> | 
+                    <a href="logout.php">Выйти</a>
+                </p>
+            </div>
+        </header>
+        
         <h1>Task Manager</h1>
 
         <form action="" method="post" accept-charset="utf-8">
