@@ -111,14 +111,7 @@
                             </form>
                         </td>
 
-                        <td><?php 
-                            $assignedUser = $users->find($row['assigned_user_id']);
-                            $assignedUsername = $assignedUser['login'];
-                            if ($assignedUser['id'] == $user['id']) {
-                                $assignedUsername .= ' (Вы)';
-                            }
-                            echo $assignedUsername;
-                        ?></td>
+                        <td><?= $row['assigned_user'].($row['assigned_user'] == $user['login'] ? ' (Вы)' : '') ?></td>
                         <td><?= $user['login'].' (Вы)' ?></td>
                         <td>
                             <form action="" method="post" accept-charset="utf-8">
@@ -173,12 +166,7 @@
                     </td>
 
                     <td><?= $user['login'].' (Вы)' ?></td>
-                    <td><?php 
-                        $author = $users->find($row['user_id']);
-                        $authorUsername = $author['login'];
-
-                        echo $authorUsername;
-                    ?></td>                
+                    <td><?= $row['user'] ?></td>                
                 </tr>
                 <?php endforeach; ?>
             </tbody>
