@@ -1,8 +1,6 @@
 <?php  
-    require_once 'Controller.php';
     require_once 'User.php';
-
-    session_start();
+    require_once 'Controller.php';
 
     if ($_POST['login'] ?? '' && $_POST['pass'] ?? '') {
 

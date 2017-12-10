@@ -40,6 +40,10 @@
             <?php endif; ?>
         </form>
 
+        <h2>Созданные задачи</h2>
+        <?php  if (!$myTasks) : ?>
+            <p><em>Нет задач</em></p>
+        <?php else : ?>
         <table>
             <thead>
                 <tr>
@@ -82,8 +86,7 @@
                 </tr>
             </thead>
             <tbody>
-            <?php  if ($queryResult) : ?>
-                <?php foreach($queryResult as $index => $row) : ?>
+                <?php foreach($myTasks as $index => $row) : ?>
                     <tr>
                         <td><?= $index + 1 ?></td>
                         <td><?= $row['id'] ?></td>
@@ -131,10 +134,56 @@
                         </td>
                     </tr>
                 <?php endforeach; ?>
-            <?php endif; ?>
             </tbody>
         </table> 
+        <?php endif; ?>
 
+
+        <h2>Делегированные задачи</h2>
+        <?php  if (!$assignedTasks) : ?>
+            <p><em>Нет задач</em></p>
+        <?php else : ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>№ п/п</th>
+                    <th>ID задачи</th>
+                    <th>Описание задачи</th>
+                    <th>Дата добавления</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                    <th>Ответственный</th>
+                    <th>Автор</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($assignedTasks as $index => $row) : ?>                
+                <tr>
+                    <td><?= $index + 1 ?></td>
+                    <td><?= $row['id'] ?></td>
+                    <td><?= $row['description'] ?></td>
+                    <td><?= $row['date_added'] ?></td>
+                    <?= $row['is_done'] ? '<td class="task-done">Выполнено</td>': '<td class="task-progress">В процессе</td>' ?>
+                    <td>
+                        <form action="" method="post" accept-charset="utf-8">
+                            <button type="submit" name="done" value="<?= $row['id']  ?>" <?= $row['is_done'] ? 'disabled' : '' ?>>
+                                Выполнить
+                            </button>
+                        </form>
+                    </td>
+
+                    <td><?= $user['login'].' (Вы)' ?></td>
+                    <td><?php 
+                        $author = $users->find($row['user_id']);
+                        $authorUsername = $author['login'];
+
+                        echo $authorUsername;
+                    ?></td>                
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php endif; ?>
     </div>
 </body>
 </html>

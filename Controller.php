@@ -16,6 +16,10 @@
     $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
     $pdo = new PDO($dsn, $user, $pass, $options);
 
+    // Task manager page
+    if ($_SESSION['user'] ?? '') {
+
+
     $users = new User($pdo);
     $userId = $_SESSION['user'];
     $user = $users->find($userId);
@@ -47,4 +51,6 @@
     }
 
     $columnOrder = $_POST['column'] ?? 'id asc';
-    $queryResult = $task->findByUserOrderBy($userId, $columnOrder);
+    $myTasks = $task->findByUserOrderBy($userId, $columnOrder);
+    $assignedTasks = $task->findByAssignedUserOrderBy($userId, $columnOrder);
+}

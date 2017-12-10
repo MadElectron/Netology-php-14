@@ -52,6 +52,7 @@ class Task {
 
         $query = "SELECT * from task2
             WHERE assigned_user_id = :user
+            AND user_id != :user
             ORDER BY $columnOrder;
             ";
         $prepquery = $this->pdo->prepare($query);

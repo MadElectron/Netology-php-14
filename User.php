@@ -11,23 +11,6 @@ class User {
         $this->pdo = $pdo;
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getLogin()
-    {
-        return $this->login;
-    }
-
-    public function getPass()
-    {
-        return $this->pass;
-    }
-
-    
-
     public function findAll() {
         $query = "SELECT * FROM user";
 
@@ -52,22 +35,22 @@ class User {
         return $prepquery->fetch();
     } 
 
-    // public function findOneBy(array $columns)
-    // {
-    //     $query = "SELECT * FROM user WHERE 1";
+    public function findOneBy(array $columns)
+    {
+        $query = "SELECT * FROM user WHERE 1";
 
-    //     foreach(array_keys($columns) as $column) {
-    //         if(in_array($column, self::$allowedColumns)) {
+        foreach(array_keys($columns) as $column) {
+            if(in_array($column, self::$allowedColumns)) {
 
-    //             $query .= " AND $column = :$column";
-    //         }
-    //     }
+                $query .= " AND $column = :$column";
+            }
+        }
 
-    //     $prepquery = $this->pdo->prepare($query);
-    //     $prepquery->execute($columns);
+        $prepquery = $this->pdo->prepare($query);
+        $prepquery->execute($columns);
 
-    //     return $prepquery->fetch();
-    // }
+        return $prepquery->fetch();
+    }
 
     public function add($login, $pass)
     {
