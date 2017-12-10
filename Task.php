@@ -21,7 +21,7 @@ class Task {
     {
         $columnOrder = self::checkedColumnAndOrder($columnOrder);
 
-        $query = "SELECT * from tasks
+        $query = "SELECT * from task2
             ORDER BY $columnOrder;
             ";
         $prepquery = $this->pdo->prepare($query);
@@ -30,10 +30,42 @@ class Task {
         return $prepquery->fetchAll();
     }
 
+    public function findByUserOrderBy($user, $columnOrder)
+    {
+        $columnOrder = self::checkedColumnAndOrder($columnOrder);
+
+        $query = "SELECT * from task2
+            WHERE user_id = :user
+            ORDER BY $columnOrder;
+            ";
+        $prepquery = $this->pdo->prepare($query);
+        $prepquery->execute([
+            'user' => $user,
+        ]);
+
+        return $prepquery->fetchAll();
+    }
+
+    public function findByAssignedUserOrderBy($user, $columnOrder)
+    {
+        $columnOrder = self::checkedColumnAndOrder($columnOrder);
+
+        $query = "SELECT * from task2
+            WHERE assigned_user_id = :user
+            ORDER BY $columnOrder;
+            ";
+        $prepquery = $this->pdo->prepare($query);
+        $prepquery->execute([
+            'user' => $user,
+        ]);
+
+        return $prepquery->fetchAll();
+    }
+
     public function findTask($id)
     {
         if ($id) {
-            $query = "SELECT * from tasks
+            $query = "SELECT * from task2
                 WHERE id = :id;
                 ";
             $prepquery = $this->pdo->prepare($query);
@@ -46,17 +78,18 @@ class Task {
         return null;
     }
 
-    public function insertTask($descr) 
+    public function insertTask($user, $descr) 
     {
         if($descr) {
             $dt = new \Datetime();
             $dt = $dt->format('Y-m-d H:i:s');
 
-            $query = "INSERT into tasks
-            VALUES(null, :descr, 0, :dt); 
+            $query = "INSERT into task2
+            VALUES(null, :user, :user, :descr, 0, :dt); 
                 ";
             $prepquery = $this->pdo->prepare($query);
             $prepquery->execute([
+                'user' => $user,
                 'descr' => $descr,
                 'dt' => $dt,
             ]);
@@ -66,7 +99,7 @@ class Task {
     public function completeTask($id) 
     {
         if ($id) {
-            $query = "UPDATE tasks
+            $query = "UPDATE task2
                 set is_done = 1
                 where id = :id;
                 ";
@@ -80,7 +113,7 @@ class Task {
     public function deleteTask($id) 
     {
         if ($id) {
-            $query = "DELETE from tasks
+            $query = "DELETE from task2
                 WHERE id = :id;
                 ";
             $prepquery = $this->pdo->prepare($query);
@@ -93,7 +126,7 @@ class Task {
     public function updateTask($id, $descr)
     {
         if ($id) {
-            $query = "UPDATE tasks
+            $query = "UPDATE task2
                 set description = :descr
                 where id = :id;
                 ";
@@ -103,5 +136,21 @@ class Task {
                 'id' => $id,
             ]);            
         }
+    }
+
+    public function assignTask($id, $userId)
+    {
+        if ($id) {
+            $query = "UPDATE task2
+                set assigned_user_id = :user
+                where id = :id;
+                ";
+            $prepquery = $this->pdo->prepare($query);
+            $prepquery->execute([
+                'user' => $userId,
+                'id' => $id,
+            ]);            
+        }
+
     }
 }   

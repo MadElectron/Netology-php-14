@@ -28,7 +28,8 @@
                 'password' => $pass
             ]);
             if($selectedUser) {
-                $_SESSION['user'] = $_POST['login'];
+                var_dump($selectedUser);
+                $_SESSION['user'] = $selectedUser['id'];
                 header('Location:manager.php');
             } else {
                 $errorMsg = "Неверный логин или пароль";

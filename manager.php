@@ -1,8 +1,6 @@
 <?php 
     require_once 'Controller.php';
 
-    session_start();
-    
     if(!($_SESSION['user'] ?? '')) {
         http_response_code(403);
         echo 'Вход только для авторизованных пользователей!';
@@ -22,7 +20,7 @@
     <div class="container">
         <header id="header">
             <div class="container">
-                <p>Пользователь:&nbsp; <?= $_SESSION['user'] ?> | 
+                <p>Пользователь:&nbsp; <?= $user['login'] ?> | 
                     <a href="logout.php">Выйти</a>
                 </p>
             </div>
@@ -77,32 +75,58 @@
                         </form>                        
                     </th>
                     <th>Действия</th>
+
+                    <th>Ответственный</th>
+                    <th>Автор</th>
+                    <th>Делегировать</th>
                 </tr>
             </thead>
             <tbody>
             <?php  if ($queryResult) : ?>
                 <?php foreach($queryResult as $index => $row) : ?>
                     <tr>
-                        <td><?php echo $index + 1; ?></td>
-                        <td><?php echo $row['id']; ?></td>
-                        <td><?php echo $row['description']; ?></td>
-                        <td><?php echo $row['date_added']; ?></td>
-                        <?php echo $row['is_done'] ? '<td class="task-done">Выполнено</td>': '<td class="task-progress">В процессе</td>'; ?>
+                        <td><?= $index + 1 ?></td>
+                        <td><?= $row['id'] ?></td>
+                        <td><?= $row['description'] ?></td>
+                        <td><?= $row['date_added'] ?></td>
+                        <?= $row['is_done'] ? '<td class="task-done">Выполнено</td>': '<td class="task-progress">В процессе</td>' ?>
                         <td>
                             <form action="" method="post" accept-charset="utf-8">
-                                <button type="submit" name="done" value="<?php echo $row['id'];  ?>" <?php echo $row['is_done'] ? 'disabled' : '' ?>>
+                                <button type="submit" name="done" value="<?= $row['id']  ?>" <?= $row['is_done'] ? 'disabled' : '' ?>>
                                     Выполнить
                                 </button>
                             </form>
                             <form action="" method="post" accept-charset="utf-8">
-                                <button type="submit" name="edit" value="<?php echo $row['id'];  ?>">
+                                <button type="submit" name="edit" value="<?= $row['id'] ?>">
                                     Изменить
                                 </button>
                             </form>                            
                             <form action="" method="post" accept-charset="utf-8">
-                                <button type="submit" name="delete" value="<?php echo $row['id'];  ?>" onclick="confirm('Вы действительно хотите удалить задание &laquo;<?php echo $row['description']; ?>&raquo;')">
+                                <button type="submit" name="delete" value="<?= $row['id'] ?>" onclick="confirm('Вы действительно хотите удалить задание &laquo;<?php echo $row['description']; ?>&raquo;')">
                                     Удалить
                                 </button>
+                            </form>
+                        </td>
+
+                        <td><?php 
+                            $assignedUser = $users->find($row['assigned_user_id']);
+                            $assignedUsername = $assignedUser['login'];
+                            if ($assignedUser['id'] == $user['id']) {
+                                $assignedUsername .= ' (Вы)';
+                            }
+                            echo $assignedUsername;
+                        ?></td>
+                        <td><?= $user['login'].' (Вы)' ?></td>
+                        <td>
+                            <form action="" method="post" accept-charset="utf-8">
+                                <select name="assignedUser">
+                                <?php foreach($users->findAll() as $u) : ?>
+                                    <option value="<?= $u['id'] ?>">
+                                        <?= $u['login'] ?>
+                                    </option>
+                                <?php endforeach ?>
+                                </select>
+                                <button type="submit" name="assign" value="<?= $row['id'] ?>">Ок</button>  
                             </form>
                         </td>
                     </tr>
