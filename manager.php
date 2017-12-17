@@ -95,7 +95,12 @@
                         <?= $row['is_done'] ? '<td class="task-done">Выполнено</td>': '<td class="task-progress">В процессе</td>' ?>
                         <td>
                             <form action="" method="post" accept-charset="utf-8">
-                                <button type="submit" name="done" value="<?= $row['id']  ?>" <?= $row['is_done'] ? 'disabled' : '' ?>>
+                                <button type="submit" name="done" value="<?= $row['id']  ?>" 
+                                    <?= 
+                                    $row['is_done'] || 
+                                    $row['assigned_user'] != $user['login'] ? 'disabled' : '' 
+                                    ?>
+                                >
                                     Выполнить
                                 </button>
                             </form>

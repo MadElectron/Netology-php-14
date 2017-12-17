@@ -26,7 +26,6 @@
                 'password' => $pass
             ]);
             if($selectedUser) {
-                var_dump($selectedUser);
                 $_SESSION['user'] = $selectedUser['id'];
                 header('Location:manager.php');
             } else {
@@ -52,7 +51,7 @@
 
             <form action="" method="post" accept-charset="utf-8">
                 <input type="text" name="login" value="<?= $_POST['login'] ?? '' ?>" placeholder="Логин" autofocus required>
-                <input type="text" name="pass" value="" placeholder="Пароль" required>
+                <input type="password" name="pass" value="" placeholder="Пароль" required>
                 <input type="submit" name="action" value="Войти">
                 <input type="submit" name="action" value="Зарегистрироваться">
             </form>    
